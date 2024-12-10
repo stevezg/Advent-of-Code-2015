@@ -23,6 +23,27 @@ def compute_wrapping_paper(l: int, w: int, h: int) -> int:
     
     return surface_area + slack
 
+def compute_ribbon(l: int, w: int, h: int) -> int:
+    """
+    Computes the total ribbon needed for a single present.
+    
+    Args:
+        l (int): Length of the present.
+        w (int): Width of the present.
+        h (int): Height of the present.
+    
+    Returns:
+        int: Total ribbon required for the present.
+    """
+    # Smallest perimeter
+    sides = sorted([l, w, h])  # Sort to get smallest two sides
+    smallest_perimeter = 2 * (sides[0] + sides[1])
+    
+    # Volume
+    volume = l * w * h
+    
+    return smallest_perimeter + volume
+
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Advent of Code 2015 - Day 2")
@@ -41,6 +62,7 @@ def main():
         return
 
     total_paper = 0
+    total_ribbon = 0
 
     for line in dimensions:
         # Parse the dimensions, e.g., "2x3x4" -> l=2, w=3, h=4
@@ -51,8 +73,10 @@ def main():
             continue
         
         total_paper += compute_wrapping_paper(l, w, h)
+        total_ribbon += compute_ribbon(l, w, h)
     
-    print(f"Total wrapping paper required: {total_paper} square feet")
+    print(f"Part 1: Total wrapping paper required: {total_paper} square feet")
+    print(f"Part 2: Total ribbon required: {total_ribbon} feet")
 
 if __name__ == "__main__":
     main()
